@@ -31,6 +31,11 @@ Resolver o problema de alta rotatividade e organização em bibliotecas através
 
 ---
 
+## 📋 Regras de Negócio Implementadas
+
+* **Cálculo de Multas:** Verificação automática de atraso comparando Data de Entrega vs Prazo.
+* **Bloqueio de Reserva:** Restrição de empréstimo de obras reservadas por outros usuários.
+* **Ciclo de Vida do Livro:** Status dinâmicos (Disponível, Emprestado, Reservado).
 ## 🚀 Como Executar
 
 1. **Clonar o Repositório:**
