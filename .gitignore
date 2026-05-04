@@ -3,6 +3,13 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Adicione a pasta .idea inteira para evitar o workspace.xml
+.idea/
+
+# Adicione arquivos de classe compilados (garantia extra além do target)
+*.class
+*.log
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
