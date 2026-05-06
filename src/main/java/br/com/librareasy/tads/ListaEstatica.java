@@ -4,7 +4,7 @@ public class ListaEstatica<E> implements Lista<E>{
     private E[] elementos;
     private int tamanho;
 
-    @SuppressWarnings("não verificado")
+    @SuppressWarnings("unchecked")
     public ListaEstatica(int n){
         this.tamanho = 0;
         this.elementos = (E[]) new Object[n];
@@ -12,7 +12,7 @@ public class ListaEstatica<E> implements Lista<E>{
 
     @Override
     public void add(int pos, E val){
-        if(isFull()) throw new IllegalStateException("Erro: Acervo lotado! Não é possível adicionar mais itens.");
+        if(isFull()) throw new IllegalStateException("Lista cheia");
         if(pos<0 || pos>tamanho) throw new IndexOutOfBoundsException("Posição inválida");
         for(int i=tamanho; i>=pos+1; i--) {
             elementos[i] = elementos[i-1];
@@ -23,7 +23,7 @@ public class ListaEstatica<E> implements Lista<E>{
 
     @Override
     public E remove(int pos){
-        if(isEmpty()) throw new IllegalStateException("Erro: Acervo vazio! Não é possível remover mais itens.");
+        if(isEmpty()) throw new IllegalStateException("Pilha vazia");
         if(pos<0 || pos>=tamanho) throw new IndexOutOfBoundsException("Posição inválida");
         E dadoExcluido = elementos[pos];
         for(int i=pos; i<=tamanho-2; i++){
@@ -35,14 +35,14 @@ public class ListaEstatica<E> implements Lista<E>{
 
     @Override
     public void set(int pos, E val){
-        if(isEmpty()) throw new IllegalStateException("Erro: Acervo vazio! Não é possível atribuir este item.");
+        if(isEmpty()) throw new IllegalStateException("Pilha vazia");
         if(pos<0 || pos>= tamanho) throw new IndexOutOfBoundsException("Posição inválida");
         elementos[pos] = val;
     }
 
     @Override
     public E get(int pos){
-        if(isEmpty()) throw new IllegalStateException("Erro: Acervo vazio! Não é possível trazer este item.");
+        if(isEmpty()) throw new IllegalStateException("Pilha vazia");
         if(pos<0 || pos>=tamanho) throw new IndexOutOfBoundsException("Posição inválida");
         return elementos[pos];
     }
@@ -53,9 +53,7 @@ public class ListaEstatica<E> implements Lista<E>{
     }
 
     @Override
-    public boolean isEmpty(){
-        return elementos.length==0;
-    }
+    public boolean isEmpty(){return tamanho==0;}
 
     @Override
     public boolean isFull(){
