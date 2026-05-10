@@ -3,26 +3,26 @@ package br.com.librareasy.model;
 import br.com.librareasy.tad.Data;
 
 public class Emprestimo {
-    private Livro livro;
+    private Exemplar exemplarEmprestado;
     private Usuario usuario;
     private Data dataInicio;
     private Data prazoDevolucao;
-    private boolean statusEmprestimo;
+    private StatusLivro statusEmprestimo;
 
-    public Emprestimo(Livro livro, Usuario usuario, Data dataInicio, Data prazoDevolucao) {
-        this.livro = livro;
+    public Emprestimo(Exemplar exemplarEmprestado, Usuario usuario, Data dataInicio, Data prazoDevolucao, StatusLivro statusEmprestimo) {
+        this.exemplarEmprestado = exemplarEmprestado;
         this.usuario = usuario;
         this.dataInicio = dataInicio;
         this.prazoDevolucao = prazoDevolucao;
-        this.statusEmprestimo = true;
+        this.statusEmprestimo = statusEmprestimo;
     }
 
-    public Livro getLivro() {
-        return livro;
+    public Exemplar getExemplarEmprestado() {
+        return exemplarEmprestado;
     }
 
-    public void setLivro(Livro livro) {
-        this.livro = livro;
+    public void setExemplarEmprestado(Exemplar exemplarEmprestado) {
+        this.exemplarEmprestado = exemplarEmprestado;
     }
 
     public Usuario getUsuario() {
@@ -49,11 +49,11 @@ public class Emprestimo {
         this.prazoDevolucao = prazoDevolucao;
     }
 
-    public boolean isStatusEmprestimo() {
+    public StatusLivro getStatusEmprestimo() {
         return statusEmprestimo;
     }
 
-    public void setStatusEmprestimo(boolean statusEmprestimo) {
+    public void setStatusEmprestimo(StatusLivro statusEmprestimo) {
         this.statusEmprestimo = statusEmprestimo;
     }
 }

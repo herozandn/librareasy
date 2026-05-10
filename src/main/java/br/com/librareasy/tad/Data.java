@@ -1,23 +1,28 @@
 package br.com.librareasy.tad;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 public class Data {
-    int dia;
-    int mes;
-    int ano;
+    private int dia;
+    private int mes;
+    private int ano;
 
     public Data(int dia, int mes, int ano) {
-        if(dia < 1 || dia > 30)
-            throw new IllegalArgumentException("Dia inválido.");
-        else
-            this.dia = dia;
-        if(mes < 1 || mes > 12)
-            throw new IllegalArgumentException("Mês inválido");
-        else
-            this.mes = mes;
-        if(ano < 2026 || ano > 2050)
-            throw new IllegalArgumentException("Ano inválido");
-        else
-            this.ano = ano;
+        int anoAtual = LocalDate.now().getYear();
+        if(ano < anoAtual || ano > anoAtual + 20){
+            throw new IllegalArgumentException("Ano inválido. Deve estar entre " + anoAtual + " e " + (anoAtual + 20));
+        }
+
+        try{
+            LocalDate.of(ano, mes, dia);
+        } catch (DateTimeException e){
+            throw new IllegalArgumentException("A data informada (" + dia + "/" + mes + "/" + ano + ") não existe no calendário.");
+        }
+        this.dia = dia;
+        this.mes = mes;
+        this.ano = ano;
     }
 
     public int getDia() {
@@ -44,16 +49,16 @@ public class Data {
         this.ano = ano;
     }
 
-    public boolean isBissexto(){
-        return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
-    }
+    public long calcularDiferencaEmDias(Data dataDevolucaoReal){
+        LocalDate dataEsperada = LocalDate.of(this.ano, this.mes, this.dia);
+        LocalDate dataReal = LocalDate.of(dataDevolucaoReal.getAno(), dataDevolucaoReal.getMes(), dataDevolucaoReal.getDia());
 
-    public int calcularDiferencaEmDias(Data dataEscolhida){
-        int totalDiasData1 = (ano * 360) + (mes * 30) + dia;
-        int totalDiasData2 = (dataEscolhida.getAno() * 360) + (dataEscolhida.getMes() * 30) + dataEscolhida.getDia();
+        long diferenca = ChronoUnit.DAYS.between(dataEsperada, dataReal);
 
-        int diferenca = totalDiasData2 - totalDiasData1;
+        if(diferenca < 0){
+            throw new IllegalArgumentException("Data de devolução não pode ser anterior à data de retirada!");
+        }
 
-        return (diferenca < 0) ? -diferenca : diferenca;
+        return diferenca;
     }
 }

@@ -6,7 +6,6 @@ public class Livro {
     private String autor;
     private String editora;
     private int anoPubli;
-    private StatusLivro estadoLivro;
 
     public Livro(int idLivro, String titulo, String autor, String editora, int anoPubli) {
         this.idLivro = idLivro;
@@ -14,7 +13,6 @@ public class Livro {
         this.autor = autor;
         this.editora = editora;
         this.anoPubli = anoPubli;
-        this.estadoLivro = StatusLivro.Disponivel;
     }
 
     public int getIdLivro() {
@@ -55,14 +53,6 @@ public class Livro {
 
     public void setAnoPubli(int anoPubli) {
         this.anoPubli = anoPubli;
-    }
-
-    public StatusLivro getEstadoLivro() {
-        return estadoLivro;
-    }
-
-    public void setEstadoLivro(StatusLivro estadoLivro) {
-        this.estadoLivro = estadoLivro;
     }
 }
 
