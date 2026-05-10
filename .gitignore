@@ -37,4 +37,8 @@ build/
 ### Mac OS ###
 .DS_Store
 
-GEMINI.md
+# Ignorar todos os arquivos Markdown (anotações pessoais)
+*.md
+
+# MAS eu quero manter o README oficial do projeto
+!README.md
