@@ -48,7 +48,7 @@ public class Data {
         return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
     }
 
-    public int calcularDiferencaEmDias(Data dataEscolhida){
+    public int calcularDiferencaEmDias(br.com.librareasy.model.Data dataEscolhida){
         int totalDiasData1 = (ano * 360) + (mes * 30) + dia;
         int totalDiasData2 = (dataEscolhida.getAno() * 360) + (dataEscolhida.getMes() * 30) + dataEscolhida.getDia();
 
