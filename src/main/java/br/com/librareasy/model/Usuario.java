@@ -1,18 +1,33 @@
 package br.com.librareasy.model;
 
+import br.com.librareasy.tads.ListaEstatica;
+import java.util.Objects;
+
 public class Usuario {
-    private int idUsuario;
+    private static int contadorId = 1;
+
+    private final int idUsuario;
     private String nome;
     private TipoUsuario tipo;
-    private double multaAcumulada;
-    private Emprestimo[] emprestimosAtuais;
+    private ListaEstatica<Emprestimo> emprestimosAtuais;
 
-    public Usuario(int idUsuario, String nome, TipoUsuario tipo, double multaAcumulada) {
-        this.idUsuario = idUsuario;
+    public Usuario(String nome, TipoUsuario tipo) {
+        this.idUsuario = contadorId++;
+        setNome(nome);
+        setTipoUsuario(tipo);
+        // Inicializa a lista com a capacidade definida pelo tipo de usuário
+        this.emprestimosAtuais = new ListaEstatica<>(tipo.getLimiteLivros());
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipo = Objects.requireNonNull(tipoUsuario, "Tipo de usuário não pode ser nulo.");
+    }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser nulo ou vazio.");
+        }
         this.nome = nome;
-        this.multaAcumulada = multaAcumulada;
-        this.tipo = tipo;
-        this.emprestimosAtuais = new Emprestimo[tipo.getLimiteLivros()];
     }
 
     public int getIdUsuario() {
@@ -23,36 +38,11 @@ public class Usuario {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public TipoUsuario getTipo() {
         return tipo;
     }
 
-    public double getMultaAcumulada() {
-        return multaAcumulada;
-    }
-
-    public void adicionarMulta(double valor){
-        if(valor > 0){
-            this.multaAcumulada += valor;
-        }
-    }
-
-    public void pagarMulta(double valorPago) {
-        if (valorPago <= 0){
-            return;
-        }
-        if(valorPago >= this.multaAcumulada){
-            this.multaAcumulada = 0.0;
-        } else {
-            throw new IllegalArgumentException("Pagamentos parciais não são aceitos.");
-        }
-    }
-
-    public Emprestimo[] getEmprestimosAtuais() {
+    public ListaEstatica<Emprestimo> getEmprestimosAtuais() {
         return emprestimosAtuais;
     }
 }

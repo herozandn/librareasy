@@ -1,7 +1,5 @@
 package br.com.librareasy.model;
 
-import br.com.librareasy.tad.Data;
-
 public class Emprestimo {
     private Exemplar exemplarEmprestado;
     private Usuario usuario;
