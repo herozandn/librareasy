@@ -1,4 +1,4 @@
-package br.com.librareasy.tad;
+package br.com.librareasy.model;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;

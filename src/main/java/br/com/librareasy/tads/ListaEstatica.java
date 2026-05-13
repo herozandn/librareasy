@@ -1,5 +1,7 @@
 package br.com.librareasy.tads;
 
+import java.util.function.Predicate;
+
 public class ListaEstatica<E> implements Lista<E>{
     private E[] elementos;
     private int tamanho;
@@ -8,6 +10,15 @@ public class ListaEstatica<E> implements Lista<E>{
     public ListaEstatica(int n){
         this.tamanho = 0;
         this.elementos = (E[]) new Object[n];
+    }
+
+    public E encontrar(Predicate<E> criterio) {
+        for (int i = 0; i < tamanho; i++) {
+            if (criterio.test(elementos[i])) {
+                return elementos[i];
+            }
+        }
+        return null;
     }
 
     @Override
@@ -73,5 +84,10 @@ public class ListaEstatica<E> implements Lista<E>{
         }
         construtorDeTexto.append("]");
         return construtorDeTexto.toString();
+    }
+
+    @Override
+    public void add(E val){
+        this.add(tamanho, val);
     }
 }

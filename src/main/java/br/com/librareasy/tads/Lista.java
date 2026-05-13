@@ -8,5 +8,6 @@ public interface Lista<E>{
     public int size();
     public boolean isEmpty();
     public boolean isFull();
+    public void add(E val);
 }
 

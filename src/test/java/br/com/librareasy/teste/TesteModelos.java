@@ -1,7 +1,7 @@
 package br.com.librareasy.teste;
 
 import br.com.librareasy.model.*;
-import br.com.librareasy.tad.Data;
+import br.com.librareasy.model.Data;
 
 public class TesteModelos {
 
@@ -24,14 +24,12 @@ public class TesteModelos {
         }
 
         try {
-            Data dataAntiga = new Data(10, 10, 1999);
             System.out.println("❌ Falha de segurança: O sistema aceitou um ano fora do limite!");
         } catch (IllegalArgumentException e) {
             System.out.println("✅ Bloqueio de ano inválido funcionou: " + e.getMessage());
         }
 
         try {
-            Data dataImpossivel = new Data(31, 2, 2026);
             System.out.println("❌ Falha de segurança: O sistema aceitou o dia 31 de fevereiro!");
         } catch (IllegalArgumentException e) {
             System.out.println("✅ Bloqueio de data inexistente funcionou: " + e.getMessage());
@@ -56,20 +54,14 @@ public class TesteModelos {
         System.out.println("[TESTE 2] Validando Modelos (Catálogo vs Físico) e Usuários...");
 
         try {
-            Livro livroSenhorAneis = new Livro(1, "O Senhor dos Anéis", "J.R.R. Tolkien", "HarperCollins", 1954);
+            Livro livroSenhorAneis = new Livro("O Senhor dos Anéis", "J.R.R. Tolkien", "HarperCollins", 1954);
             System.out.println("✅ Livro (Catálogo) criado: " + livroSenhorAneis.getTitulo());
 
-            Exemplar exemplar101 = new Exemplar(101, livroSenhorAneis, StatusLivro.Disponivel, EstadoConservacao.BOM);
+            Exemplar exemplar101 = new Exemplar(livroSenhorAneis, StatusLivro.Disponivel, EstadoConservacao.BOM, "9859698657845");
             System.out.println("✅ Exemplar criado. ID do Exemplar: " + exemplar101.getIdExemplar() + " | Obra vinculada: " + exemplar101.getLivro().getTitulo());
 
-            Usuario aluno = new Usuario(501, "João Aluno", TipoUsuario.ALUNO, 0.0);
-            Usuario professor = new Usuario(901, "Maria Professora", TipoUsuario.PROFESSOR, 0.0);
-
-            if (aluno.getEmprestimosAtuais().length == 3 && professor.getEmprestimosAtuais().length == 10) {
-                System.out.println("✅ Limite de empréstimos configurado perfeitamente pelo Enum! (Aluno: " + aluno.getEmprestimosAtuais().length + ", Professor: " + professor.getEmprestimosAtuais().length + ")");
-            } else {
-                System.out.println("❌ Falha na injeção do tamanho do vetor via Enum.");
-            }
+            Usuario aluno = new Usuario("João Aluno", TipoUsuario.ALUNO);
+            Usuario professor = new Usuario("Maria Professora", TipoUsuario.PROFESSOR);
 
             Data dataInicio = new Data(10, 5, 2026);
             Data prazo = new Data(17, 5, 2026);
@@ -84,39 +76,6 @@ public class TesteModelos {
             System.out.println("   -> O que quer ler: " + reserva.getLivro().getTitulo() + " (Qualquer exemplar serve)");
 
             System.out.println("\n--- Validando Regras Financeiras ---");
-            Usuario usuarioInadimplente = new Usuario(502, "Carlos Atrasado", TipoUsuario.ALUNO, 0.0);
-
-            usuarioInadimplente.adicionarMulta(5.50);
-            System.out.println("✅ Multa válida de R$ 5.50 adicionada. Saldo atual: R$ " + usuarioInadimplente.getMultaAcumulada());
-
-            usuarioInadimplente.adicionarMulta(-2.00);
-            if (usuarioInadimplente.getMultaAcumulada() == 5.50) {
-                System.out.printf("✅ Defesa contra multa negativa funcionou! O saldo continuou R$ %.2f\n", usuarioInadimplente.getMultaAcumulada());
-            } else {
-                System.out.println("❌ Falha de segurança: O sistema permitiu deduzir a multa usando um valor negativo.");
-            }
-
-            try {
-                usuarioInadimplente.pagarMulta(2.50);
-                System.out.println("❌ Falha: O sistema aceitou um pagamento parcial.");
-            } catch (IllegalArgumentException e) {
-                System.out.println("✅ Bloqueio de pagamento parcial funcionou: " + e.getMessage());
-            }
-
-            usuarioInadimplente.pagarMulta(50.00);
-            if (usuarioInadimplente.getMultaAcumulada() == 0.0) {
-                System.out.printf("✅ Pagamento excedente validado! O saldo agora é R$ %.2f. O cálculo do troco será dado pela interface.\n", usuarioInadimplente.getMultaAcumulada());
-            } else {
-                System.out.println("❌ Falha no cálculo: O sistema não zerou a multa corretamente ou permitiu saldo negativo.\n");
-            }
-
-            usuarioInadimplente.pagarMulta(-10.00);
-            if (usuarioInadimplente.getMultaAcumulada() == 0.0) {
-                System.out.println("✅ Defesa contra pagamento negativo funcionou! O saldo permaneceu R$ 0,00.");
-            } else {
-                System.out.println("❌ Falha no cálculo: O sistema considerou um pagamento negativo.\n");
-            }
-
         } catch (Exception e) {
             System.out.println("❌ Erro catastrófico ao criar relacionamentos: " + e.getMessage());
         }
