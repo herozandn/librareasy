@@ -121,13 +121,13 @@ public class Biblioteca {
                         e.getStatusLivro() == StatusLivro.Disponivel);
     }
 
-    public void realizarEmprestimo(Usuario usuario, String titulo, Data hoje, Data prazo){
+    public void realizarEmprestimo(Usuario usuario, String titulo, Data hoje){
         //Verifica se o exemplar está disponível
         Exemplar disponivel = buscarPrimeiroDisponivel(titulo);
         //Se não encontrou
         if(disponivel==null) throw new IllegalStateException("Nenhum livro encontrado");
 
-        Emprestimo novo = new Emprestimo(disponivel, usuario, hoje, prazo, StatusLivro.Emprestado);
+        Emprestimo novo = new Emprestimo(disponivel, usuario, hoje);
         historicoEmprestimos.add(novo);
         disponivel.setStatusLivro(StatusLivro.Emprestado);
     }

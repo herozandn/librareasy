@@ -51,8 +51,7 @@ public class Data {
      * @return Data atual do sistema
      */
     public static Data hoje() {
-        LocalDate agora = LocalDate.now();
-        return new Data(agora.getDayOfMonth(), agora.getMonthValue(), agora.getYear());
+        return new Data();
     }
 
     /**

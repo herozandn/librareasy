@@ -1,19 +1,27 @@
 package br.com.librareasy.model;
 
 public class Emprestimo {
+    private static int cont;
+    private final int idEmprestimo;
     private Exemplar exemplarEmprestado;
     private Usuario usuario;
     private Data dataInicio;
     private Data prazoDevolucao;
-    private StatusLivro statusEmprestimo;
+    private StatusEmprestimo statusEmprestimo;
 
-    public Emprestimo(Exemplar exemplarEmprestado, Usuario usuario, Data dataInicio, Data prazoDevolucao, StatusLivro statusEmprestimo) {
+    public Emprestimo(Exemplar exemplarEmprestado, Usuario usuario, Data hoje) {
+        this.idEmprestimo = cont++;
         this.exemplarEmprestado = exemplarEmprestado;
         this.usuario = usuario;
-        this.dataInicio = dataInicio;
-        this.prazoDevolucao = prazoDevolucao;
-        this.statusEmprestimo = statusEmprestimo;
+        this.dataInicio = hoje;
+        this.prazoDevolucao = hoje.adicionarDias();
+        this.statusEmprestimo = StatusEmprestimo.Ativo;
     }
+
+    /**
+     * Calculo de multa
+     * @return
+     */
 
     public Exemplar getExemplarEmprestado() {
         return exemplarEmprestado;
@@ -47,11 +55,11 @@ public class Emprestimo {
         this.prazoDevolucao = prazoDevolucao;
     }
 
-    public StatusLivro getStatusEmprestimo() {
+    public StatusEmprestimo getStatusEmprestimo() {
         return statusEmprestimo;
     }
 
-    public void setStatusEmprestimo(StatusLivro statusEmprestimo) {
+    public void setStatusEmprestimo(StatusEmprestimo statusEmprestimo) {
         this.statusEmprestimo = statusEmprestimo;
     }
 }
