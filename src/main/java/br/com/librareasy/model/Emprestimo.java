@@ -1,7 +1,5 @@
 package br.com.librareasy.model;
 
-import java.time.LocalDate;
-
 public class Emprestimo {
     private static int cont=1;
     private final int idEmprestimo;
@@ -14,9 +12,9 @@ public class Emprestimo {
 
     public Emprestimo(Exemplar exemplarEmprestado, Usuario usuario, Data hoje) {
         this.idEmprestimo = cont++;
-        this.exemplarEmprestado = exemplarEmprestado;
-        this.usuario = usuario;
-        this.dataInicio = hoje;
+        setExemplarEmprestado(exemplarEmprestado);
+        setUsuario(usuario);
+        setDataInicio(hoje);
         this.prazoDevolucao = hoje.adicionarDias();
         this.statusEmprestimo = StatusEmprestimo.Ativo;
     }
@@ -32,7 +30,7 @@ public class Emprestimo {
 
     /**
      * Calcula a multa de atraso
-     * Se houver atrasp a multa é de R$4,00 por dia
+     * Se houver atraso a multa é de R$4,00 por dia
      */
     public double multa(){
         if(dataDevolucao==null) return 0.0;
@@ -45,6 +43,10 @@ public class Emprestimo {
     }
 
     public void setExemplarEmprestado(Exemplar exemplarEmprestado) {
+        if(exemplarEmprestado==null) throw new IllegalArgumentException("Exemplar não pode ser nulo");
+        if(exemplarEmprestado.getStatusLivro()!=StatusLivro.Disponivel){
+            throw new IllegalStateException("Exemplar não disponível");
+        }
         this.exemplarEmprestado = exemplarEmprestado;
     }
 
@@ -53,6 +55,7 @@ public class Emprestimo {
     }
 
     public void setUsuario(Usuario usuario) {
+        if(usuario==null) throw new IllegalArgumentException("Usuário não pode ser nulo");
         this.usuario = usuario;
     }
 
@@ -61,6 +64,10 @@ public class Emprestimo {
     }
 
     public void setDataInicio(Data dataInicio) {
+        if(dataInicio==null) throw new IllegalArgumentException("Data não pode ser nula");
+        if(this.prazoDevolucao!=null && !dataInicio.isAntes(this.prazoDevolucao)){
+            throw new IllegalStateException("Data de início não pode ser após o prazo de devolução.");
+        }
         this.dataInicio = dataInicio;
     }
 
@@ -68,15 +75,7 @@ public class Emprestimo {
         return prazoDevolucao;
     }
 
-    public void setPrazoDevolucao(Data prazoDevolucao) {
-        this.prazoDevolucao = prazoDevolucao;
-    }
-
     public StatusEmprestimo getStatusEmprestimo() {
         return statusEmprestimo;
-    }
-
-    public void setStatusEmprestimo(StatusEmprestimo statusEmprestimo) {
-        this.statusEmprestimo = statusEmprestimo;
     }
 }

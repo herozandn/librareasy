@@ -80,6 +80,20 @@ public class Data {
         return ChronoUnit.DAYS.between(dataEsperada, dataReal);
     }
 
+    /**
+     * Comparação manual de datas
+     * @return
+     */
+    public boolean isAntes(Data data){
+        if(this.ano<data.ano) return true;
+        if(this.ano>data.ano) return false;
+
+        if(this.mes<data.mes) return true;
+        if(this.mes>data.mes) return false;
+
+        return this.dia< data.dia;
+
+    }
     @Override
     public String toString() {
         return String.format("%02d/%02d/%04d", dia, mes, ano);

@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class Usuario {
     private static int contadorId = 1;
-
     private final int idUsuario;
     private String nome;
     private TipoUsuario tipo;

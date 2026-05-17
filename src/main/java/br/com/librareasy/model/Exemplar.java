@@ -1,22 +1,56 @@
 package br.com.librareasy.model;
-
 import java.util.Objects;
 
 public class Exemplar {
     private static int contadorId=1;
-
     private final int idExemplar;
     private Livro livro;
+    private String editora;
     private StatusLivro statusLivro;
     private EstadoConservacao estadoConservacao;
+    private String anoPubli;
     private String isbn;
 
-    public Exemplar(Livro livro, StatusLivro statusLivro, EstadoConservacao estadoConservacao, String isbn) {
+    public Exemplar(Livro livro, StatusLivro statusLivro, EstadoConservacao estadoConservacao, String isbn, String editora, String anoPubli) {
         this.idExemplar = contadorId++;
         setLivro(livro);
+        setEditora(editora);
+        setAnoPubli(anoPubli);
         setStatusLivro(statusLivro);
         setEstadoConservacao(estadoConservacao);
         setIsbn(isbn);
+    }
+
+    public String getAnoPubli() {
+        return anoPubli;
+    }
+
+    public void setAnoPubli(String anoPubli) {
+        if (anoPubli == null){
+            throw new IllegalArgumentException("Ano de publicação não deve ser nulo.");
+        }
+        int ano = Integer.parseInt(anoPubli);
+        int anoAtual = java.time.Year.now().getValue();
+        if(ano>anoAtual) throw new IllegalArgumentException("Ano inválido");
+        this.anoPubli = anoPubli;
+    }
+    //Faz apenas: if(e.estaDisponivel())
+    public boolean estaDisponivel(){
+        return this.statusLivro == StatusLivro.Disponivel;
+    }
+
+    public void marcarEmprestado(){
+        if(!estaDisponivel()) throw new IllegalStateException("Livro não está disponível");
+        this.statusLivro = StatusLivro.Emprestado;
+    }
+
+    public String getEditora() {
+        return editora;
+    }
+
+    public void setEditora(String editora) {
+        if (editora == null || editora.trim().isEmpty()) throw new IllegalArgumentException("Editora não pode ser nulo ou vazio.");
+        this.editora = editora;
     }
 
     public int getIdExemplar() {
@@ -24,8 +58,12 @@ public class Exemplar {
     }
 
     public void setIsbn(String isbn){
-        int tamanho = isbn.length();
-        if(tamanho!=13) throw new IllegalArgumentException("Tamanho incompatível");
+        //Remove possíveis hífens ou espaços que o usuário digitou
+        String cleanIsbn = isbn.replace("-", "").replace(" ", "");
+        //Verifica se tem exatamente 13 dígitos numéricos
+        if (!cleanIsbn.matches("\\d{13}")) {
+            throw new IllegalArgumentException("O ISBN deve conter exatamente 13 dígitos.");
+        }
         this.isbn = isbn;
     }
 

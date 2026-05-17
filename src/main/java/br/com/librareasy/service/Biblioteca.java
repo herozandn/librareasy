@@ -3,8 +3,6 @@ package br.com.librareasy.service;
 import br.com.librareasy.model.*;
 import br.com.librareasy.tads.ListaEstatica;
 
-import java.util.Objects;
-
 public class Biblioteca {
 
     private ListaEstatica<Usuario> usuarios;
@@ -36,14 +34,15 @@ public class Biblioteca {
 
         //Se não existir, cria o Livro primeiro
         if (livroParaAssociar == null) {
-            livroParaAssociar = new Livro(titulo, autor, editora, anoPubli);
+            livroParaAssociar = new Livro(titulo, autor);
             livros.add(livroParaAssociar);
         }
 
         //Cria e adiciona o Exemplar associado ao Livro
-        Exemplar novoExemplar = new Exemplar(livroParaAssociar, StatusLivro.Disponivel, EstadoConservacao.NOVO, isbn);
+        Exemplar novoExemplar = new Exemplar(livroParaAssociar, StatusLivro.Disponivel, EstadoConservacao.NOVO, isbn, editora, "1589");
         exemplares.add(novoExemplar);
     }
+
 
     /**
      * Altera o status de um exemplar específico.
