@@ -78,4 +78,9 @@ public class Emprestimo {
     public StatusEmprestimo getStatusEmprestimo() {
         return statusEmprestimo;
     }
+
+    public void renovar(){
+        //Estende o prazo em sete dias
+        this.prazoDevolucao = this.prazoDevolucao.adicionarDias();
+    }
 }

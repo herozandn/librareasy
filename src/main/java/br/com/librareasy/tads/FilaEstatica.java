@@ -1,5 +1,7 @@
 package br.com.librareasy.tads;
 
+import br.com.librareasy.model.Usuario;
+
 public class FilaEstatica<E> implements Fila<E>{
     private E[] elementos;
     private int fim;
@@ -50,6 +52,14 @@ public class FilaEstatica<E> implements Fila<E>{
         elementos[fim] = null;
         fim--;
         return val;
+    }
+
+    public boolean contem(E obj){
+       for(int i=0; i<=fim; i++){
+           if(elementos[i].equals(obj))
+               return true;
+       }
+       return false;
     }
 }
 

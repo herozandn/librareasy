@@ -9,16 +9,14 @@ public class Exemplar {
     private StatusLivro statusLivro;
     private EstadoConservacao estadoConservacao;
     private String anoPubli;
-    private String isbn;
 
-    public Exemplar(Livro livro, StatusLivro statusLivro, EstadoConservacao estadoConservacao, String isbn, String editora, String anoPubli) {
+    public Exemplar(Livro livro, StatusLivro statusLivro, EstadoConservacao estadoConservacao, String editora, String anoPubli) {
         this.idExemplar = contadorId++;
         setLivro(livro);
         setEditora(editora);
         setAnoPubli(anoPubli);
         setStatusLivro(statusLivro);
         setEstadoConservacao(estadoConservacao);
-        setIsbn(isbn);
     }
 
     public String getAnoPubli() {
@@ -34,6 +32,7 @@ public class Exemplar {
         if(ano>anoAtual) throw new IllegalArgumentException("Ano inválido");
         this.anoPubli = anoPubli;
     }
+
     //Faz apenas: if(e.estaDisponivel())
     public boolean estaDisponivel(){
         return this.statusLivro == StatusLivro.Disponivel;
@@ -57,19 +56,6 @@ public class Exemplar {
         return idExemplar;
     }
 
-    public void setIsbn(String isbn){
-        //Remove possíveis hífens ou espaços que o usuário digitou
-        String cleanIsbn = isbn.replace("-", "").replace(" ", "");
-        //Verifica se tem exatamente 13 dígitos numéricos
-        if (!cleanIsbn.matches("\\d{13}")) {
-            throw new IllegalArgumentException("O ISBN deve conter exatamente 13 dígitos.");
-        }
-        this.isbn = isbn;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
 
     public Livro getLivro() {
         return livro;
@@ -93,5 +79,10 @@ public class Exemplar {
 
     public void setEstadoConservacao(EstadoConservacao estadoConservacao) {
         this.estadoConservacao = Objects.requireNonNull(estadoConservacao, "Estado de conservação não pode ser nulo.");
+    }
+
+    public String toString(){
+        return String.format("ID: %d | Livro: %-20s | Status: %-12s | Editora: %s",
+        idExemplar, livro.getTitulo(), statusLivro, editora);
     }
 }

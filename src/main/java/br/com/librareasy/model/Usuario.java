@@ -44,4 +44,8 @@ public class Usuario {
     public ListaEstatica<Emprestimo> getEmprestimosAtuais() {
         return emprestimosAtuais;
     }
+
+    public boolean temPendencias() {
+        return !emprestimosAtuais.isEmpty();
+        }
 }
