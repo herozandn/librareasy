@@ -21,6 +21,13 @@ public class ListaEstatica<E> implements Lista<E>{
         return null;
     }
 
+    public int encontrarIndice(Predicate<E> criterio){
+        for(int i=0; i<tamanho; i++){
+            if(criterio.test(elementos[i])) return i;
+        }
+        return -1;
+    }
+
     @Override
     public void add(int pos, E val){
         if(isFull()) throw new IllegalStateException("Lista cheia");

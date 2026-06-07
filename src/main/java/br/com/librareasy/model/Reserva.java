@@ -34,4 +34,5 @@ public class Reserva {
     public void setDataSolicitacao(Data dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
+
 }

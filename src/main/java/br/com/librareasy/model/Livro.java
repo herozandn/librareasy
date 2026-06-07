@@ -1,31 +1,18 @@
 package br.com.librareasy.model;
 
-import br.com.librareasy.tads.FilaEstatica;
-
 public class Livro {
     private static int contadorId=1;
-
     private final int idLivro;
     private String titulo;
     private String autor;
-    private String editora;
-    private int anoPubli;
-    private FilaEstatica<Usuario> filaEspera;
-    private FilaEstatica<Reserva> filaReserva;
+    private String isbn;
 
-    public Livro(String titulo, String autor, String editora, int anoPubli) {
+    public Livro(String titulo, String autor, String isbn) {
         this.idLivro = contadorId++;
         setTitulo(titulo);
         setAutor(autor);
-        setEditora(editora);
-        setAnoPubli(anoPubli);
-        this.filaEspera = new FilaEstatica<>(10);
-        this.filaReserva = new FilaEstatica<>(10);
+        setIsbn(isbn);
     }
-
-    public FilaEstatica<Usuario> getFilaEspera() {return filaEspera;}
-
-    public FilaEstatica<Reserva> getFilaReserva() {return filaReserva;}
 
     public int getIdLivro() {
         return idLivro;
@@ -49,22 +36,18 @@ public class Livro {
         this.autor = autor;
     }
 
-    public String getEditora() {
-        return editora;
+    public void setIsbn(String isbn){
+        //Remove possíveis hífens ou espaços que o usuário digitou
+        String cleanIsbn = isbn.replace("-", "").replace(" ", "");
+        //Verifica se tem exatamente 13 dígitos numéricos
+        if (!cleanIsbn.matches("\\d{13}")) {
+            throw new IllegalArgumentException("O ISBN deve conter exatamente 13 dígitos.");
+        }
+        this.isbn = isbn;
     }
 
-    public void setEditora(String editora) {
-        if (editora == null || editora.trim().isEmpty()) throw new IllegalArgumentException("Editora não pode ser nulo ou vazio.");
-        this.editora = editora;
-    }
-
-    public int getAnoPubli() {
-        return anoPubli;
-    }
-
-    public void setAnoPubli(int anoPubli) {
-        if (anoPubli <= 0) throw new IllegalArgumentException("Ano de publicação deve ser positivo.");
-        this.anoPubli = anoPubli;
+    public String getIsbn() {
+        return isbn;
     }
 }
 
