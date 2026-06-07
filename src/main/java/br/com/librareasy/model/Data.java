@@ -32,6 +32,7 @@ public class Data {
 
     /**
      * Valida a data entrada
+     *
      * @param dia, mes, ano são os dias entrados
      * @throws IllegalArgumentException se data inválida
      */
@@ -56,6 +57,7 @@ public class Data {
 
     /**
      * Calcula o prazo de devolução (por padrão 7 sete dias após a data de retirada)
+     *
      * @return Data
      */
     public Data adicionarDias() {
@@ -70,6 +72,7 @@ public class Data {
 
     /**
      * Calcula a diferença entre a data de retirada e de devolução
+     *
      * @param dataDevolucaoReal Data de devolução esperada
      * @return diferenca
      */
@@ -82,7 +85,8 @@ public class Data {
 
     /**
      * Comparação manual de datas
-     * @return
+     *
+     * @return verdadeiro caso seja antes
      */
     public boolean isAntes(Data data){
         if(this.ano<data.ano) return true;

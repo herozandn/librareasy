@@ -37,10 +37,6 @@ public class Usuario {
         return nome;
     }
 
-    public TipoUsuario getTipo() {
-        return tipo;
-    }
-
     public ListaEstatica<Emprestimo> getEmprestimosAtuais() {
         return emprestimosAtuais;
     }

@@ -1,9 +1,9 @@
 package br.com.librareasy.model;
 
 public class Reserva {
-    private Livro livro;
-    private Usuario usuario;
-    private Data dataSolicitacao;
+    private final Livro livro;
+    private final Usuario usuario;
+    private final Data dataSolicitacao; //data solicitação é definida na criação
 
     public Reserva(Livro livro, Usuario usuario, Data dataSolicitacao) {
         this.livro = livro;
@@ -15,24 +15,7 @@ public class Reserva {
         return livro;
     }
 
-    public void setLivro(Livro livro) {
-        this.livro = livro;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Data getDataSolicitacao() {
-        return dataSolicitacao;
-    }
-
-    public void setDataSolicitacao(Data dataSolicitacao) {
-        this.dataSolicitacao = dataSolicitacao;
-    }
-
 }
