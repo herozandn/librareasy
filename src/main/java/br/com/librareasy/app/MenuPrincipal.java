@@ -1,7 +1,7 @@
 package br.com.librareasy.app;
+
 import br.com.librareasy.model.Data;
 import br.com.librareasy.model.TipoUsuario;
-import br.com.librareasy.model.Usuario;
 import br.com.librareasy.service.Biblioteca;
 import java.util.Scanner;
 import static java.lang.System.out;
@@ -9,6 +9,7 @@ import static java.lang.System.out;
 public class MenuPrincipal {
     private final Biblioteca biblioteca;
     private final Scanner scanner;
+    private boolean rodando = true;
 
     public MenuPrincipal(Biblioteca biblioteca){
         this.biblioteca = biblioteca;
@@ -16,10 +17,8 @@ public class MenuPrincipal {
     }
 
     public void exibir(){
-        int opcao;
-        boolean rodando = true;
-
         while (rodando){
+            out.println("\n=== SISTEMA LIBRAEASY ===");
             out.println("[1] - Cadastrar exemplar");
             out.println("[2] - Remover exemplar");
             out.println("[3] - Exibir acervo");
@@ -30,58 +29,56 @@ public class MenuPrincipal {
             out.println("[8] - Renovar empréstimo");
             out.println("[9] - Realizar reserva");
             out.println("[0] - Sair");
-            opcao = scanner.nextInt();
-            procesarOperacao(opcao);
+            out.print("Opção: ");
+            
+            if (scanner.hasNextInt()) {
+                int opcao = scanner.nextInt();
+                scanner.nextLine();
+                procesarOperacao(opcao);
+            } else {
+                out.println("Opção inválida.");
+                scanner.nextLine();
+            }
         }
     }
 
     private void procesarOperacao(int opcao){
         switch (opcao){
-            case 1:
-                menuCadastrarExemplar();
+            case 1: menuCadastrarExemplar(); break;
+            case 2: menuRemoverExemplar(); break;
+            case 3: menuExibirAcervo(); break;
+            case 4: menuCastrarUsuario(); break;
+            case 5: menuRemoverUsuario(); break;
+            case 6: menuRealizarEmprestimo(); break;
+            case 7: menuRealizarDevolucao(); break;
+            case 8: menuRenovarEmprestimo(); break;
+            case 9: menuRealizarReserva(); break;
+            case 0: 
+                out.println("Saindo...");
+                this.rodando = false; 
                 break;
-            case 2:
-                menuRemoverExemplar();
-                break;
-            case 3:
-                menuExibirAcervo();
-                break;
-            case 4:
-                menuCastrarUsuario();
-                break;
-            case 5:
-                menuRemoverUsuario();
-                break;
-            case 6:
-
+            default: out.println("Opção não encontrada"); break;
         }
     }
 
-    /**
-     * Leitura de tipo de usuário
-     * @return tipo de usuário
-     */
     private TipoUsuario lerTipo() {
-        out.println("Tipo de Usuário: [1] Aluno | [2] Professor | [3] Admin");
+        out.println("Tipo: [1] Aluno | [2] Professor | [3] Admin");
         int op = scanner.nextInt();
         scanner.nextLine();
-        return switch (op) {
-            case 2 -> TipoUsuario.PROFESSOR;
-            case 3 -> TipoUsuario.ADMINISTRADOR;
-            default -> TipoUsuario.ALUNO;
-        };
+        if (op == 2) return TipoUsuario.PROFESSOR;
+        if (op == 3) return TipoUsuario.ADMINISTRADOR;
+        return TipoUsuario.ALUNO;
     }
 
     private void menuCastrarUsuario(){
-        out.println("Nome usuário: ");
+        out.print("Nome: ");
         String nome = scanner.nextLine();
-        out.println("Tipo usuário: ");
         TipoUsuario tipo = lerTipo();
         try {
             biblioteca.cadastrarUsuario(nome, tipo);
-            out.println("Usuário: " + nome + " cadastrado com sucesso");
-        } catch (IllegalStateException | IllegalArgumentException e ){
-            out.println(e.getMessage());
+            out.println("Sucesso!");
+        } catch (Exception e ){
+            out.println("Erro: " + e.getMessage());
         }
     }
 
@@ -90,67 +87,96 @@ public class MenuPrincipal {
     }
 
     private void menuRemoverExemplar(){
-        out.println("Id do exemplar: ");
-        int idExemplar = scanner.nextInt();
+        out.print("ID Exemplar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         try{
-            biblioteca.removerExemplar(idExemplar);
-            out.println("Exemplar: " + idExemplar + " removido");
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            out.println(e.getMessage());
+            biblioteca.removerExemplar(id);
+            out.println("Removido!");
+        } catch (Exception e) {
+            out.println("Erro: " + e.getMessage());
         }
     }
 
     private void menuCadastrarExemplar(){
-        out.println("Título: ");
-        String titulo = scanner.nextLine();
-        out.println("Autor: ");
-        String autor = scanner.nextLine();
-        out.println("Editora: ");
-        String editora = scanner.nextLine();
-        out.println("Ano de publicação: ");
-        String anoPubli = scanner.nextLine();
-        out.println("ISBN: ");
-        String isbn = scanner.nextLine();
+        out.print("Título: "); String tit = scanner.nextLine();
+        out.print("Autor: "); String aut = scanner.nextLine();
+        out.print("Editora: "); String edi = scanner.nextLine();
+        out.print("Ano: "); String ano = scanner.nextLine();
+        out.print("ISBN: "); String isbn = scanner.nextLine();
         try{
-            biblioteca.cadastrarExemplar(titulo, autor, editora, anoPubli, isbn);
-            out.println("Exemplar: " + titulo + " adicionado");
-        } catch (IllegalStateException | IllegalArgumentException e){
-            out.println(e.getMessage());
+            biblioteca.cadastrarExemplar(tit, aut, edi, ano, isbn);
+            out.println("Adicionado!");
+        } catch (Exception e){
+            out.println("Erro: " + e.getMessage());
         }
     }
 
     private void menuRemoverUsuario() {
-        out.println("Id usuário: ");
-        int idUsuario = scanner.nextInt();
+        out.print("ID Usuário: ");
+        int id = scanner.nextInt();
         scanner.nextLine();
         try{
-            biblioteca.removerUsuario(idUsuario);
-            out.println("Usuário: " + idUsuario + " removido com sucesso");
-        } catch (IllegalArgumentException | IllegalStateException e){
-            out.println(e.getMessage());
+            biblioteca.removerUsuario(id);
+            out.println("Removido!");
+        } catch (Exception e){
+            out.println("Erro: " + e.getMessage());
         }
     }
 
     private void menuRealizarEmprestimo(){
-        out.println("Usuário: ");
-        String nomeUsuario = scanner.nextLine();
-        out.println("Titulo: ");
-        String tituloLivro = scanner.nextLine();
-        out.println("Dia: ");
-        int dia = scanner.nextInt();
-        out.println("Mês: ");
-        int mes = scanner.nextInt();
-        out.println("Ano: ");
-        int ano = scanner.nextInt();
-
-        try{
-            Data data = new Data(dia, mes, ano);
-        } catch (IllegalArgumentException e){
-            out.println(e.getMessage());
-        }
-
+        out.print("Usuário: "); String user = scanner.nextLine();
+        out.print("Livro: "); String livro = scanner.nextLine();
+        out.print("Dia: "); int d = scanner.nextInt();
+        out.print("Mês: "); int m = scanner.nextInt();
+        out.print("Ano: "); int a = scanner.nextInt();
+        scanner.nextLine();
         try {
-            biblioteca.realizarEmprestimo(nomeUsuario, tituloLivro, data);
+            biblioteca.realizarEmprestimo(user, livro, new Data(d, m, a));
+            out.println("Empréstimo concluído");
+        } catch (Exception e){
+            out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    public void menuRealizarDevolucao(){
+        out.print("ID Exemplar: "); int id = scanner.nextInt();
+        out.print("Dia: "); int d = scanner.nextInt();
+        out.print("Mês: "); int m = scanner.nextInt();
+        out.print("Ano: "); int a = scanner.nextInt();
+        scanner.nextLine();
+        try {
+            biblioteca.realizarDevolucao(id, new Data(d, m, a));
+            out.println("Devolução realizada");
+        } catch (Exception e){
+            out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    public void menuRenovarEmprestimo(){
+        out.print("ID Exemplar: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        try{
+            biblioteca.renovarEmprestimo(id);
+            out.println("Renovação concluída");
+        }catch (Exception e){
+            out.println("Erro: " + e.getMessage());
+        }
+    }
+
+    public void menuRealizarReserva(){
+        out.print("Usuário: "); String user = scanner.nextLine();
+        out.print("Livro: "); String livro = scanner.nextLine();
+        out.print("Dia: "); int d = scanner.nextInt();
+        out.print("Mês: "); int m = scanner.nextInt();
+        out.print("Ano: "); int a = scanner.nextInt();
+        scanner.nextLine();
+        try {
+            biblioteca.realizarReserva(user, livro, new Data(d, m, a));
+            out.println("Reserva realizada");
+        } catch (Exception e){
+            out.println("Erro: " + e.getMessage());
         }
     }
 }
