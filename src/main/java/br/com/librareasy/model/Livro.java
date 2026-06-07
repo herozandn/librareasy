@@ -14,10 +14,6 @@ public class Livro {
         setIsbn(isbn);
     }
 
-    public int getIdLivro() {
-        return idLivro;
-    }
-
     public String getTitulo() {
         return titulo;
     }
@@ -25,10 +21,6 @@ public class Livro {
     public void setTitulo(String titulo) {
         if (titulo == null || titulo.trim().isEmpty()) throw new IllegalArgumentException("Título não pode ser nulo ou vazio.");
         this.titulo = titulo;
-    }
-
-    public String getAutor() {
-        return autor;
     }
 
     public void setAutor(String autor) {
@@ -44,10 +36,6 @@ public class Livro {
             throw new IllegalArgumentException("O ISBN deve conter exatamente 13 dígitos.");
         }
         this.isbn = isbn;
-    }
-
-    public String getIsbn() {
-        return isbn;
     }
 }
 

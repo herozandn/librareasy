@@ -21,6 +21,7 @@ public class Emprestimo {
 
     /**
      * Registra a devolução
+     *
      * @param dataDevolucao data REAL de devolução do exemplar
      */
     public void registrarDevolucao(Data dataDevolucao){
@@ -30,7 +31,8 @@ public class Emprestimo {
 
     /**
      * Calcula a multa de atraso
-     * Se houver atraso a multa é de R$4,00 por dia
+     *
+     * @return se houver atraso a multa é de R$4,00 por dia
      */
     public double multa(){
         if(dataDevolucao==null) return 0.0;
@@ -59,10 +61,6 @@ public class Emprestimo {
         this.usuario = usuario;
     }
 
-    public Data getDataInicio() {
-        return dataInicio;
-    }
-
     public void setDataInicio(Data dataInicio) {
         if(dataInicio==null) throw new IllegalArgumentException("Data não pode ser nula");
         if(this.prazoDevolucao!=null && !dataInicio.isAntes(this.prazoDevolucao)){
@@ -71,14 +69,13 @@ public class Emprestimo {
         this.dataInicio = dataInicio;
     }
 
-    public Data getPrazoDevolucao() {
-        return prazoDevolucao;
-    }
-
     public StatusEmprestimo getStatusEmprestimo() {
         return statusEmprestimo;
     }
 
+    /**
+     * Renova empréstimo
+     */
     public void renovar(){
         //Estende o prazo em sete dias
         this.prazoDevolucao = this.prazoDevolucao.adicionarDias();

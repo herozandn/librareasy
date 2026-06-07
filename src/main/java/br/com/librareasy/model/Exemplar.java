@@ -19,10 +19,6 @@ public class Exemplar {
         setEstadoConservacao(estadoConservacao);
     }
 
-    public String getAnoPubli() {
-        return anoPubli;
-    }
-
     public void setAnoPubli(String anoPubli) {
         if (anoPubli == null){
             throw new IllegalArgumentException("Ano de publicação não deve ser nulo.");
@@ -33,18 +29,27 @@ public class Exemplar {
         this.anoPubli = anoPubli;
     }
 
-    //Faz apenas: if(e.estaDisponivel())
+    /**
+     * Verifica se está disponível
+     */
     public boolean estaDisponivel(){
         return this.statusLivro == StatusLivro.Disponivel;
     }
 
+    /**
+     * Marca o exemplar como emprestado
+     */
     public void marcarEmprestado(){
         if(!estaDisponivel()) throw new IllegalStateException("Livro não está disponível");
         this.statusLivro = StatusLivro.Emprestado;
     }
 
-    public String getEditora() {
-        return editora;
+    /**
+     * Marca o exemplar como disponível
+     */
+    public void marcarDisponivel(){
+        if(!estaDisponivel()) throw new IllegalStateException("Livro não está disponível");
+        this.statusLivro = StatusLivro.Disponivel;
     }
 
     public void setEditora(String editora) {
@@ -55,7 +60,6 @@ public class Exemplar {
     public int getIdExemplar() {
         return idExemplar;
     }
-
 
     public Livro getLivro() {
         return livro;
@@ -73,14 +77,15 @@ public class Exemplar {
         this.statusLivro = Objects.requireNonNull(statusLivro, "Status do livro não pode ser nulo.");
     }
 
-    public EstadoConservacao getEstadoConservacao() {
-        return estadoConservacao;
-    }
-
     public void setEstadoConservacao(EstadoConservacao estadoConservacao) {
         this.estadoConservacao = Objects.requireNonNull(estadoConservacao, "Estado de conservação não pode ser nulo.");
     }
 
+    /**
+     * Formatação de exibição
+     *
+     * @return idExemplar, titulo, statusLivro e editora
+     */
     public String toString(){
         return String.format("ID: %d | Livro: %-20s | Status: %-12s | Editora: %s",
         idExemplar, livro.getTitulo(), statusLivro, editora);
