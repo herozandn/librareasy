@@ -1,6 +1,7 @@
 package br.com.librareasy.model;
 
-import br.com.librareasy.tads.ListaEstatica;
+import br.com.librareasy.tads.ListaDinamica;
+
 import java.util.Objects;
 
 public class Usuario {
@@ -8,14 +9,14 @@ public class Usuario {
     private final int idUsuario;
     private String nome;
     private TipoUsuario tipo;
-    private ListaEstatica<Emprestimo> emprestimosAtuais;
+    private ListaDinamica<Emprestimo> emprestimosAtuais;
 
     public Usuario(String nome, TipoUsuario tipo) {
         this.idUsuario = contadorId++;
         setNome(nome);
         setTipoUsuario(tipo);
-        // Inicializa a lista com a capacidade definida pelo tipo de usuário
-        this.emprestimosAtuais = new ListaEstatica<>(tipo.getLimiteLivros());
+        // Inicializa a lista dinâmica
+        this.emprestimosAtuais = new ListaDinamica<>();
     }
 
     public void setTipoUsuario(TipoUsuario tipoUsuario) {
@@ -37,7 +38,7 @@ public class Usuario {
         return nome;
     }
 
-    public ListaEstatica<Emprestimo> getEmprestimosAtuais() {
+    public ListaDinamica<Emprestimo> getEmprestimosAtuais() {
         return emprestimosAtuais;
     }
 

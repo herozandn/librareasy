@@ -6,7 +6,7 @@ import br.com.librareasy.service.*;
 public class Main {
     public static void main(String[] args) {
         // Inicializa a biblioteca com as capacidades definidas
-        Biblioteca biblioteca = new Biblioteca(100, 50, 200, 500, 100, 1000);
+        Biblioteca biblioteca = new Biblioteca();
         
         // Popula com dados iniciais
         DadosTestes.popular(biblioteca);

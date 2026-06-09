@@ -6,4 +6,5 @@ public interface Fila<E>{
     public E peek();
     public void enqueue(E obj);
     public E dequeue();
+    public boolean contem(E obj);
 }
