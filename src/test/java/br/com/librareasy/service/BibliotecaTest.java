@@ -13,7 +13,7 @@ class BibliotecaTest {
     @BeforeEach
     void setUp() {
         // Capacidades: 10 livros, 10 usuários, 20 exemplares, 50 histórico, 20 reservas, 100 logs
-        biblioteca = new Biblioteca(10, 10, 20, 50, 20, 100);
+        biblioteca = new Biblioteca();
         biblioteca.cadastrarUsuario("Joao", TipoUsuario.ALUNO);
         hoje = new Data();
     }

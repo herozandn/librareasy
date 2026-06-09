@@ -77,8 +77,10 @@ public class MenuPrincipal {
         try {
             biblioteca.cadastrarUsuario(nome, tipo);
             out.println("Sucesso!");
-        } catch (Exception e ){
-            out.println("Erro: " + e.getMessage());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
@@ -93,8 +95,10 @@ public class MenuPrincipal {
         try{
             biblioteca.removerExemplar(id);
             out.println("Removido!");
-        } catch (Exception e) {
-            out.println("Erro: " + e.getMessage());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
@@ -107,8 +111,10 @@ public class MenuPrincipal {
         try{
             biblioteca.cadastrarExemplar(tit, aut, edi, ano, isbn);
             out.println("Adicionado!");
-        } catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
@@ -119,37 +125,52 @@ public class MenuPrincipal {
         try{
             biblioteca.removerUsuario(id);
             out.println("Removido!");
-        } catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
+    }
+
+    private Data lerData() {
+        try {
+            out.print("Dia (dd): "); int d = scanner.nextInt();
+            out.print("Mês (mm): "); int m = scanner.nextInt();
+            out.print("Ano (aaaa): "); int a = scanner.nextInt();
+            scanner.nextLine();
+            return new Data(d, m, a);
+        } catch (IllegalArgumentException e) {
+            out.println("Data inválida: " + e.getMessage() + ". Usando data de hoje.");
+        }
+        return Data.hoje();
     }
 
     private void menuRealizarEmprestimo(){
         out.print("Usuário: "); String user = scanner.nextLine();
         out.print("Livro: "); String livro = scanner.nextLine();
-        out.print("Dia: "); int d = scanner.nextInt();
-        out.print("Mês: "); int m = scanner.nextInt();
-        out.print("Ano: "); int a = scanner.nextInt();
-        scanner.nextLine();
+        Data datahoje = lerData();
+
         try {
-            biblioteca.realizarEmprestimo(user, livro, new Data(d, m, a));
-            out.println("Empréstimo concluído");
-        } catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+            biblioteca.realizarEmprestimo(user, livro, datahoje);
+            out.println("Empréstimo concluído em " + datahoje);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
     public void menuRealizarDevolucao(){
         out.print("ID Exemplar: "); int id = scanner.nextInt();
-        out.print("Dia: "); int d = scanner.nextInt();
-        out.print("Mês: "); int m = scanner.nextInt();
-        out.print("Ano: "); int a = scanner.nextInt();
         scanner.nextLine();
+        Data dataDevolucao = lerData();
         try {
-            biblioteca.realizarDevolucao(id, new Data(d, m, a));
-            out.println("Devolução realizada");
-        } catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+            biblioteca.realizarDevolucao(id, dataDevolucao);
+            out.println("Devolução realizada em " + dataDevolucao);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
@@ -160,23 +181,24 @@ public class MenuPrincipal {
         try{
             biblioteca.renovarEmprestimo(id);
             out.println("Renovação concluída");
-        }catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 
     public void menuRealizarReserva(){
         out.print("Usuário: "); String user = scanner.nextLine();
         out.print("Livro: "); String livro = scanner.nextLine();
-        out.print("Dia: "); int d = scanner.nextInt();
-        out.print("Mês: "); int m = scanner.nextInt();
-        out.print("Ano: "); int a = scanner.nextInt();
-        scanner.nextLine();
+        Data dataReserva = lerData();
         try {
-            biblioteca.realizarReserva(user, livro, new Data(d, m, a));
-            out.println("Reserva realizada");
-        } catch (Exception e){
-            out.println("Erro: " + e.getMessage());
+            biblioteca.realizarReserva(user, livro, dataReserva);
+            out.println("Reserva realizada em " + dataReserva);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            out.println("Atenção: " + e.getMessage());
+        } catch (RuntimeException e) {
+            out.println("Erro inesperado no sistema: " + e.getMessage());
         }
     }
 }

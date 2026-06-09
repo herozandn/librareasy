@@ -1,25 +1,26 @@
 package br.com.librareasy.service;
 
 import br.com.librareasy.model.*;
-import br.com.librareasy.tads.ListaEstatica;
-import br.com.librareasy.tads.PilhaEstatica;
+import br.com.librareasy.tads.ListaDinamica;
+import br.com.librareasy.tads.PilhaDinamica;
+
 import static java.lang.System.out;
 
 public class Biblioteca {
-    private ListaEstatica<Usuario> usuarios;
-    private ListaEstatica<Livro> livros;
-    private ListaEstatica<Exemplar> exemplares;
-    private ListaEstatica<Emprestimo> historicoEmprestimos;
-    private ListaEstatica<Reserva> reservas;
-    private PilhaEstatica<LogOperacao> logs;
+    private ListaDinamica<Usuario> usuarios;
+    private ListaDinamica<Livro> livros;
+    private ListaDinamica<Exemplar> exemplares;
+    private ListaDinamica<Emprestimo> historicoEmprestimos;
+    private ListaDinamica<Reserva> reservas;
+    private PilhaDinamica<LogOperacao> logs;
 
-    public Biblioteca(int acervoCap, int usuariosCap, int exemplaresCap, int historicoCap, int reservasCap, int logsCap){
-        this.livros = new ListaEstatica<>(acervoCap);
-        this.usuarios = new ListaEstatica<>(usuariosCap);
-        this.exemplares = new ListaEstatica<>(exemplaresCap);
-        this.historicoEmprestimos = new ListaEstatica<>(historicoCap);
-        this.reservas = new ListaEstatica<>(reservasCap);
-        this.logs = new PilhaEstatica<>(logsCap);
+    public Biblioteca(){
+        this.livros = new ListaDinamica<>();
+        this.usuarios = new ListaDinamica<>();
+        this.exemplares = new ListaDinamica<>();
+        this.historicoEmprestimos = new ListaDinamica<>();
+        this.reservas = new ListaDinamica<>();
+        this.logs = new PilhaDinamica<>();
     }
 
     /**
@@ -28,9 +29,7 @@ public class Biblioteca {
      * @param mensagem mensagem do log
      */
     public void registrarLog(String tipo, String mensagem){
-        if(!logs.isFull()) {
-            logs.push(new LogOperacao(tipo, mensagem));
-        }
+        logs.push(new LogOperacao(tipo, mensagem));
     }
 
     /**
@@ -43,7 +42,7 @@ public class Biblioteca {
         }
         out.println("\n=== HISTÓRICO DE OPERAÇÕES ===");
         //Pilha auxiliar
-        PilhaEstatica<LogOperacao> auxiliar = new PilhaEstatica<>(logs.size());
+        PilhaDinamica<LogOperacao> auxiliar = new PilhaDinamica<>();
         while (!logs.isEmpty()) {
             LogOperacao log = logs.pop();
             out.println(log.toString());

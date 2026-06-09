@@ -1,5 +1,7 @@
 package br.com.librareasy.tads;
 
+import java.util.function.Predicate;
+
 public class FilaDinamica<E> implements Fila<E> {
 
     private No<E> inicio, fim;
@@ -40,6 +42,7 @@ public class FilaDinamica<E> implements Fila<E> {
         }
     }
 
+
     @Override
     public E dequeue() {
         if(isEmpty()){
@@ -68,15 +71,31 @@ public class FilaDinamica<E> implements Fila<E> {
         return cont;
     }
 
+
+    public boolean contem(Predicate<E> filtro) {
+        No<E> atual = inicio;
+        while (atual != null) {
+            if (filtro.test(atual.getDado())) {
+                return true;
+            }
+            atual = atual.getProximoNo();
+        }
+        return false;
+    }
+
+    public boolean contem(E obj) {
+        return contem(dado -> (obj == null) ? (dado == null) : obj.equals(dado));
+    }
+
     public String show(){
-        String saida = "";
+        StringBuilder saida = new StringBuilder();
         No<E> atual = inicio;
 
         while(atual != null){
-            saida += atual.getDado() + " ";
+            saida.append(atual.getDado()).append(" ");
             atual = atual.getProximoNo();
         }
 
-        return saida;
+        return saida.toString();
     }
 }

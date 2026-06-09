@@ -15,7 +15,7 @@ public class BibliotecaSeedDataTest {
     @BeforeEach
     void setUp() {
         // Inicializa a biblioteca com capacidades confortáveis
-        biblioteca = new Biblioteca(50, 50, 100, 200, 50, 1000);
+        biblioteca = new Biblioteca();
         hoje = new Data();
     }
 

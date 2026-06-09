@@ -1,5 +1,9 @@
 package br.com.librareasy.tads;
 
+import static java.lang.System.out;
+
+import java.util.function.Predicate;
+
 public class ListaDinamica<E> implements Lista<E> {
     private No<E> inicio, fim;
 
@@ -202,36 +206,43 @@ public class ListaDinamica<E> implements Lista<E> {
         return removedItem;
     }
 
-    public No<E> find(E dado){
-        if(isEmpty()){
-            return null;
-        }
-
-        No<E> auxiliar = inicio;
-
-        while(auxiliar != null){
-            if(auxiliar.getDado().equals(dado)){
-                return auxiliar;
+    public E encontrar(Predicate<E> filtro) {
+        No<E> atual = inicio;
+        while (atual != null) {
+            if (filtro.test(atual.getDado())) {
+                return atual.getDado();
             }
-            auxiliar = auxiliar.getProximoNo();
+            atual = atual.getProximoNo();
         }
-
         return null;
     }
 
-    public void print(){
+    public int encontrarIndice(Predicate<E> filtro) {
+        No<E> atual = inicio;
+        int indice = 0;
+        while (atual != null) {
+            if (filtro.test(atual.getDado())) {
+                return indice;
+            }
+            atual = atual.getProximoNo();
+            indice++;
+        }
+        return -1;
+    }
+
+    public void display(){
         if(isEmpty()){
-            System.out.println("Lista vazia");
+            out.println("Lista vazia");
         }
 
-        System.out.println("Dados na lista");
+        out.println("Dados na lista");
         No<E> auxiliar = inicio;
 
         while(auxiliar != null){
-            System.out.println(auxiliar.getDado());
+            out.println(auxiliar.getDado());
             auxiliar = auxiliar.getProximoNo();
         }
 
-        System.out.println("\n");
+        out.println("\n");
     }
 }
